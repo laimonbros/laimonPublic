@@ -26,14 +26,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Синхронизация базы данных
-/*sequelize.sync({ alter: true }).then(() => {
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-        console.log(`Server is running on http://localhost:${PORT}`);
-    });
-});*/
-
 // Sync database 
 sequelize.sync({ alter: true }).then(() => {
     const PORT = process.env.PORT || 3000;
