@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>Laimon Bros Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="src/styles.css">
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FP6F58XZL5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FP6F58XZL5');
+</script>
+
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div class="loading-container" id="loading-container">
+    <div class="loading-content">
+        <img src="img/lemon.png" alt="Loading Icon" class="loading-icon">
+        <p>App is loading, please wait a little.</p>
+        <div class="loading-bar-wrapper">
+            <div class="loading-bar" id="loading-bar"></div>
+        </div>
+        <p class="loading-text">Loading...</p>
+    </div>
+</div>
+
+<!-- Login Screen -->
+<div class="login-container" id="login-container" style="display: none;">
+    <div class="login-form">
+        <h1 class="app-title">LAIMON BROS</h1>
+        <p class="app-tagline">Predict. Swipe. Earn.</p>
+        <div class="logo-container">
+            <img src="img/lemon.png" alt="Lemon Logo" class="app-logo">
+        </div>
+      
+
+        <div class="checkbox-container" id="privacy-policy-container">
+            <input type="checkbox" id="terms-checkbox">
+            <label for="terms-checkbox">I agree with the privacy policy</label>
+        </div>
+        
+
+        <button id="login-button">Start playing</button>
+    </div>
+</div>
+
+
+<!-- ONBOARDING CARDS -->
+<div id="onboarding-container" style="display: none;" class="onboarding-container">
+    <div class="onboarding-card active">
+        <button id="onboarding-skip">Skip</button>
+        <img src="img/stories1.png" alt="Onboarding Slide 1">
+    </div>
+    <div class="onboarding-card">
+        <img src="img/stories2.png" alt="Onboarding Slide 2">
+    </div>
+    <div class="onboarding-card">
+        <img src="img/stories3.png" alt="Onboarding Slide 3">
+    </div>
+    <div class="onboarding-card">
+        <img src="img/stories4.png" alt="Onboarding Slide 4">
+    </div>
+
+</div>
+
+
+
+
+
+<!--DAILY REWARD NEW -->
+
+<!-- Daily Rewards Page -->
+<div id="daily-reward-page" style="display: none;" class="daily-reward-page">
+    <div class="daily-reward-content">
+        <!-- The day number will be injected here by JavaScript -->
+        <span id="daily-day-number"></span>
+        <div class="daily-reward-box">
+            <p class="reward-subtitle">Your daily rewards</p>
+            <div class="reward-box">
+                <!-- The bonus amount will be injected here by JavaScript -->
+                <span id="daily-bonus-amount"></span>
+                <img src="img/lemon.png" alt="Lemon Icon" class="reward-icon">
+            </div>
+        </div>
+        <p class="reward-description">
+            Join us tomorrow and get your daily bonus.<br>
+            Reminder: Missing a day will reset your progress.
+        </p>
+        <button id="claim-reward-button" class="claim-button">Claim</button>
+    </div>
+</div>
+
+
+
+<!-- GAME LOBBY SCREEN -->
+<div id="app-content" style="display: none;">
+    <div class="game-header">
+        <span class="beta-text">Predictions <br />coming soon!</span>
+    </div>
+    <div class="score-container">
+        <p>Your total score</p>
+        <h2><span id="score-value">1000</span> <img src="img/lemon.png" alt="Lemon Icon" class="lemon-icon-lobby"></h2>
+    </div>
+    <div class="game-section">
+        <div class="game-preview">
+            <img src="img/lemonsg.png" alt="Game Preview">
+        </div>
+        <button class="play-button">Play</button>
+    </div>
+    <!--<p class="coming-soon">Coming Soon: Prediction Platform</p>-->
+
+    <!-- GAME UI  -->
+
+
+    <div id="game-screen" style="display: none;">
+        <div class="game-ui-header">
+            <div class="game-timer">
+                <p>Time</p>
+                <h1 id="game-timer">01:00</h1>
+            </div>
+            <div class="divider"></div> <!-- Vertical divider -->
+            <div class="game-score">
+                <p>Your score</p>
+                <h1 id="game-score">0 <img src="img/lemon.png" alt="Lemon Icon" class="lemon-icon"></h1>
+            </div>
+        </div>
+    
+        <div id="game-area" class="game-area">
+            <!-- Lemons will appear here -->
+        </div>
+    </div>
+    
+
+    <!-- QUESTS TAB -->
+
+
+    <!-- Quests Tab Content -->
+   <div id="quests-tab"> 
+        <div class="quests-content">
+            <div class="quests-header">
+                <img src="img/lemon.png" alt="Lemon Icon" class="quests-icon">
+                <p class="quests-tagline">Keeping it simple with focus on growth</p>
+            </div>
+
+
+            <div class="quests-list">
+            <div class="quest-item-invite" id="quest-item-invite">
+    <p>Invite friends</p>
+    <div class="quest-reward">+100 <img src="img/lemon.png" alt="Lemon Icon" class="reward-icon"></div>
+</div>
+
+
+
+<!-- INVITE POPUP -->
+<div id="invite-popup" class="invite-popup" style="display: none;">
+    <div class="invite-popup-content">
+        <button id="close-popup" class="close-popup">&times;</button>
+        <h1>Invite Friends</h1>
+        <div class="invite-share-buttons">
+            <button id="share-invite-twitter" class="invite-share-button">Share on Twitter</button>
+            <button id="share-invite-telegram" class="invite-share-button">Share on Telegram</button>
+            <button id="copy-link-button" class="invite-share-button">Copy Link</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+                <div id="quest-item-twitter" class="quest-item">
+                    <p>Follow on Twitter</p>
+                    <div class="quest-reward">+100 <img src="img/lemon.png" alt="Lemon Icon" class="reward-icon"></div>
+                </div>
+                <div id="quest-item-telegram" class="quest-item">
+                    <p>Join Telegram</p>
+                    <div class="quest-reward">+100 <img src="img/lemon.png" alt="Lemon Icon" class="reward-icon"></div>
+                </div>
+               <div id="quest-item-discord" class="quest-item">
+                    <p>Join Linkedin</p>
+                    <div class="quest-reward">+100 <img src="img/lemon.png" alt="Lemon Icon" class="reward-icon"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- LEADERBOARD TAB -->
+    <div id="leaderboard-tab" class="tab-content">
+        <!-- Top 3 leaderboard layout -->
+        <div class="leaderboard-top">
+            <div class="leaderboard-top-item">
+                <p>2</p>
+                <img src="img/avatar2.png" alt="User 2"/>
+                <p>@nik_2</p>
+                <p>480k <span class="leaf-icon"></span></p>
+            </div>
+            <div class="leaderboard-top-item leader">
+                <p><span class="crown-icon"></span></p>
+                <img src="img/avatar1.png" alt="User 1"/>
+                <p>@nik_1</p>
+                <p>500k <span class="leaf-icon"></span></p>
+            </div>
+            <div class="leaderboard-top-item">
+                <p>3</p>
+                <img src="img/avatar3.png" alt="User 3"/>
+                <p>@nik_3</p>
+                <p>460k <span class="leaf-icon"></span></p>
+            </div>
+        </div>
+
+        <!-- User placement text -->
+        <p class="user-placement">Your place is <strong>185</strong> among 10,789</p>
+
+        <!-- Full leaderboard list -->
+        <div id="leaderboard-list" class="leaderboard-list">
+            <!-- Example user -->
+            <div class="leaderboard-item">
+                <img src="img/ava-placeholder.png" alt="Avatar">
+                <p class="nickname">@username</p>
+                <p class="points">12345</p>
+              </div>
+              
+            <!-- Add other items here -->
+        </div>
+    </div>
+
+
+    <div id="profile-tab" class="tab-content">
+        <div class="profile-header">
+            <img id="profile-avatar" src="img/avatar1.png" alt="User Avatar" class="profile-avatar"/>
+            <h2 class="profile-greeting">Hello, <span id="telegram-username">Loading...</span></h2>
+        </div>
+        <div class="profile-options">
+           <!-- <div class="profile-option">
+                <img src="img/friends.png" alt="Friends Icon" class="profile-icon"/>
+                <span>Friends</span>
+                <img src="img/chevron-right.png" alt="Arrow Icon" class="arrow-icon"/>
+            </div>-->
+         
+            <div class="profile-option" id="support-option">
+                <img src="img/support.png" alt="Referral Icon" class="profile-icon"/>
+                <span>Support</span>
+                <img src="img/chevron-right.png" alt="Arrow Icon" class="arrow-icon"/>
+            </div>
+            
+        
+            
+
+ <!-- New Menu Items -->
+ <!-- Add these two divs inside the .profile-options container -->
+<div class="profile-option" id="terms-and-conditions">
+    <img src="img/privacy.png" alt="Terms Icon" class="profile-icon"/>
+    <span>Privacy Policy</span>
+    <img src="img/chevron-right.png" alt="Arrow Icon" class="arrow-icon"/>
+</div>
+<div class="profile-option" id="user-agreement">
+    <img src="img/terms.png" alt="Agreement Icon" class="profile-icon"/>
+    <span>Terms and Conditions</span>
+    <img src="img/chevron-right.png" alt="Arrow Icon" class="arrow-icon"/>
+</div>
+
+
+<!-- Popup Overlay -->
+<div id="popup-overlay" class="popup-overlay" style="display: none;">
+    <div class="popup-content">
+        <span class="close-button">&times;</span>
+        <h2 id="popup-title"></h2>
+        <div id="popup-text"></div>
+    </div>
+</div>
+
+
+
+        </div>
+    </div>
+    
+
+
+
+    <!-- END GAME POPUP WITH TIMER-->
+<div id="end-game-popup" style="display: none;" class="end-game-popup">
+    <div class="popup-content">
+        <h1>That's awesome!
+            Keep it up!</h1>
+        <!-- Added Timer Element -->
+        <div id="next-game-timer" style="margin-top: 10px; font-size: 16px; color: #fff;">
+            Next game available in: <span id="timer">04:00:00</span>
+        </div>
+        <div class="rewards">
+            <h2>Rewards</h2>
+            <div class="rewards-inside">
+                <p id="reward-points">100</p>
+            </div>
+        </div>
+        <div class="share-buttons">
+            <button id="share-twitter" class="share-button">Share on Twitter</button>
+            <button id="share-telegram" class="share-button">Share on Telegram</button>
+        </div>
+        <button id="share-to-main" class="share-to-main" aria-label="Main Page">
+            <!-- Chevron Left SVG Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+        </button>
+       
+    </div>
+</div> 
+
+
+   
+
+
+    <!-- Footer Menu -->
+    
+<div class="footer">
+    <div class="footer-item" data-tab="Main">
+        <img src="img/main1.svg" alt="Home" class="footer-icon">
+        <p>Main</p>
+    </div>
+    <div class="footer-item" data-tab="Leaderboard">
+        <img src="img/leader1.svg" alt="Leaderboard" class="footer-icon">
+        <p>Ranking</p>
+    </div>
+    <div class="footer-item" data-tab="Quests">
+        <img src="img/quests.svg" alt="Quests" class="footer-icon">
+        <p>Quests</p>
+    </div>
+    <div class="footer-item" data-tab="Profile">
+        <img src="img/profile1.svg" alt="Profile" class="footer-icon">
+        <p>Profile</p>
+    </div>
+</div>
+
+</div>
+
+<script type="module" src="src/main.js"></script>
+
+
+</body>
+</html>

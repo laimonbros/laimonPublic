@@ -1,0 +1,1382 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #0b0b13;
+  color: white;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+overflow: hidden;   
+}
+
+body.game-screen-active .footer {
+  display: none;
+  overflow: hidden;   
+}
+
+
+.loading-container, .login-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.loading-content {
+  text-align: center;
+  padding: 5%;
+}
+
+.loading-icon {
+  width: 200px !important; /* Adjust to viewport width */
+  animation: pulse 1.5s infinite;
+}
+
+.loading-bar-wrapper {
+  width: 100%; /* Responsive width */
+  height: 5px;
+  background-color: #333;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.loading-bar {
+  width: 0;
+  height: 100%;
+  background-color: #9df841;
+  transition: width 0.3s;
+}
+.loading-text { 
+  font-size: 12px; 
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+}
+
+.login-form {
+  text-align: center;
+  width: 90%;
+  max-width: 400px; /* Prevent overly large scaling */
+  padding: 5%;
+}
+
+
+#login-button {
+  background: linear-gradient(90deg, #7DEB60, #F7FC14); /* Gradient colors */
+  color: black;
+  padding: 15px 20px; /* Adjust padding for better touch targets */
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%; /* Full width of the container */
+  max-width: 300px; /* Prevents it from becoming too large on wide screens */
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+  transition: all 0.3s ease; /* Smooth hover effect */
+  margin-top: 10px !important;
+}
+
+#login-button:hover {
+  background: linear-gradient(90deg, #68c128 0%, #e4d910 100%);
+  transform: scale(1.02); /* Slight scaling on hover */
+}
+
+#login-button:active {
+  background: linear-gradient(90deg, #57a620 0%, #c2b00e 100%);
+  transform: scale(0.98); /* Pressed effect */
+}
+
+
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  gap:10px;
+  font-size: 14px;
+}
+
+/* Hide the default checkbox */
+#terms-checkbox {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid grey;
+  border-radius: 4px; /* Rounded corners */
+  outline: none;
+  cursor: pointer;
+  display: inline-block;
+
+  background-color: transparent;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Checked state */
+#terms-checkbox:checked {
+  color: grey; 
+  border-color: grey;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="white" d="M6.5 11.2l-3.3-3.2-.7.7 4 4 8-8-.7-.7z"/></svg>');
+  background-size: 70%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.app-logo {
+ width: 350px !important; /* Dynamically adjust to viewport width */
+  max-width: 350px !important; /* Prevent from becoming too large */
+  height: auto;
+  margin-bottom: 10px;
+}
+
+/*ONBOARDING*/
+
+/* Ensure onboarding and daily reward pages always have a black background */
+#onboarding-container,
+#daily-reward-page {
+  background-color: #0B0D14 !important; /* Force black background */
+  width: 100vw;
+  height: 100vh;
+}
+
+.onboarding-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 2000;
+}
+
+.onboarding-card {
+  display: none;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  text-align: center;
+}
+
+.onboarding-card.active {
+  display: block;
+}
+
+.onboarding-card img {
+  width: 100%;
+  height: auto;
+}
+
+#onboarding-skip {
+  margin-top: 20px;
+  background: linear-gradient(90deg, #7DEB60, #F7FC14);
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#onboarding-skip:hover {
+  background: linear-gradient(90deg, #68c128, #e4d910);
+}
+
+
+/*DAILY REWARD*/
+
+/* Daily Reward Page */
+.daily-reward-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0b0b13; /* Dark background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.daily-reward-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px; /* Space between elements */
+  
+
+}
+
+.daily-reward-box { 
+
+  margin-top: 10px  !important;
+  background: linear-gradient(145deg, #0e0e14, #1a1a24, #7DEB60);
+  border-radius: 15px;
+  padding: 10px 50px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+/* Daily Rewards Title with Pixel Font */
+#daily-day-number {
+  font-family: 'Press Start 2P', cursive; /* Apply the pixel font */
+  font-size: 36px; /* Adjust font size as needed */
+  color: white; /* Ensure readability on dark background */
+  margin: 0; /* Remove extra spacing */
+  text-align: center; /* Center the title */
+}
+
+
+.reward-subtitle {
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  margin: 0;
+}
+
+.reward-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0px;
+  background-color: #15171C;
+  border-radius: 15px;
+  padding: 5px 30px;
+}
+
+#daily-bonus-amount {
+  font-size: 32px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  color: white;
+}
+
+.reward-icon {
+  width: 80px;
+  height: 80px;
+}
+
+.reward-description {
+  font-size: 14px;
+  color: #b0b0b0; /* Lighter gray */
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+.claim-button {
+  background: linear-gradient(90deg, #7DEB60, #F7FC14); /* Gradient colors */
+  color: black;
+  padding: 15px 20px; /* Adjust padding for better touch targets */
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%; /* Full width of the container */
+  max-width: 300px; /* Prevents it from becoming too large on wide screens */
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+  transition: all 0.3s ease; /* Smooth hover effect */
+  margin-top:10px !important;
+}
+
+.claim-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(157, 248, 65, 0.4);
+}
+
+.claim-button:active {
+  transform: scale(0.95);
+}
+
+
+
+
+/* GAME LOBBY Styles */
+#app-content {
+  
+  position: absolute; /* Make each tab a full-screen layer */
+  top: 10;
+  left: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  display: none; /* Initially hidden */
+  background-color: #0b0b13; /* Dark background matching theme */
+  z-index: 10; /* Ensure tabs are on top of the footer */
+  overflow: hidden;   
+ 
+}
+
+#app-content.active {
+  display: flex; /* Show active tab */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; } 
+
+/* Header Section */
+.game-header {
+  display: flex;
+  justify-content: center; /* Centers the image horizontally */
+  align-items: center;    /* Centers the image vertically */
+  width: 100%;
+  padding: 15px;
+}
+
+.beta-text {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 1.5; /* Adjust the value as desired */
+
+  text-align: center;
+  display: block; /* ensures the element can be centered properly */
+}
+
+
+
+/* Score Box Styles */
+.score-container {
+  background: linear-gradient(145deg, #0e0e14, #1a1a24); /* Dark gradient background */
+  border-radius: 15px; /* Rounded corners */
+  padding: 35px;
+  text-align: center;
+  width: 70%;
+  max-width: 350px;
+  height: 60px;         /* If this is forcing too much space, consider reducing or removing it */
+  margin: 0px auto;     /* Center the score box */
+  box-shadow:
+    inset 0px 2px 5px rgba(255, 255, 255, 0.05), /* Subtle inner glow */
+    0px 4px 6px rgba(0, 0, 0, 0.4),             /* Outer shadow for depth */
+    0px 10px 20px rgba(0, 0, 0, 0.2);           /* Background blur effect */
+  display: flex;           /* Flexbox for layout */
+  flex-direction: column;  /* Stack text vertically */
+  justify-content: center; /* Center vertically */
+  align-items: center;     /* Center horizontally */
+}
+
+/* Score Text */
+.score-container p {
+  color: #ffffff;  /* White text for the label */
+  font-size: 16px; /* Small font size for description */
+  margin: 0;       /* Remove default paragraph margins */
+  margin-bottom: 0px; /* (Optional) a small gap above <h2>; adjust as needed */
+}
+
+/* Main Score */
+.score-container h2 {
+  font-size: 30px;     /* Larger font for score */
+  font-weight: bold;
+  margin: 0;           /* Remove default heading margin */
+  background: linear-gradient(90deg, #a6ff5e, #c4ff17); /* Bright neon gradient */
+  background-clip: text;
+  -webkit-background-clip: text; /* For Safari/WebKit */
+  color: transparent;            /* Gradient text */
+  display: flex;       /* Flexbox to align icon and text horizontally */
+  align-items: center; /* Center icon and text vertically */
+  gap: 0px;            /* Spacing between text and icon */
+}
+
+
+
+.lemon-icon-lobby {
+  width: 90px;
+  height: 80px;
+  vertical-align: middle;
+}
+
+
+/* GAME SECTION */
+.game-section {
+  text-align: center;
+  margin-top: 20px;
+  position: relative; /* To position the button relative to the section */
+  padding-bottom: 10px !important;
+
+  
+}
+
+.game-preview {
+  width: 100%;
+  max-width: 90vw;
+  height: auto; /* Maintain aspect ratio */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px auto; 
+  padding-bottom: 10px !important;
+
+  
+  position: relative; /* To ensure the image is positioned properly */
+  z-index: 1; /* Keep image behind the button */
+}
+
+.game-preview img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  z-index: 1; /* Ensure the image stays behind the button */
+}
+
+/* Play Button Above Image */
+.play-button {
+  position: absolute;
+  top: 80%; /* Adjust the position above the image */
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the button */
+  z-index: 2; /* Place the button in front of the image */
+  background: linear-gradient(90deg, #7DEB60, #F7FC14);
+  padding: 20px 25px;
+  border: none;
+  border-radius: 10px;
+  color: black;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 80vw;
+  max-width: 80vw; /* Maintain reasonable size */
+}
+
+.play-button:hover {
+  box-shadow: 0 4px 15px rgba(157, 248, 65, 0.4); /* Add subtle glow on hover */
+}
+
+.coming-soon { 
+  text-align: center;
+  color: #7DEB60; 
+  padding: 20px 25px;
+  position: relative; /* To ensure the image is positioned properly */
+  z-index: 1; /* Keep image behind the button */
+  font-size: 14px;
+}
+
+
+
+
+/*GAME UI*/
+
+/* Game Screen */
+#game-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  background-color: #000;
+  background: url("img/backlemon.png");
+  background-size: cover;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  z-index: 1001;
+  overflow: hidden; /* Disable scrollbars on these sections */
+  height: 100vh; /* Force full viewport height */
+  width: 100vw; /* Force full viewport width */
+}
+
+/* Lemon Splash Effect */
+.lemon-splash {
+  position: absolute;
+  width: 60px; /* Adjust size as needed */
+  height: 60px;
+  background: url('img/lemon-splash.png') no-repeat center/contain; /* Path to splash image */
+  pointer-events: none; /* Prevent interaction with the splash */
+  animation: splash-animation 0.5s ease-out forwards; /* Fade out effect */
+}
+
+@keyframes splash-animation {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5); /* Grow the splash */
+  }
+}
+
+
+
+.game-ui-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 70vw;
+  max-width: 70vw;
+  padding: 5px;
+  margin-top: 15px; 
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+  border-radius: 15px;
+  color: white;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05); /* Semi-transparent black background */
+  backdrop-filter: blur(10px); /* Blurred background effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Add a shadow for better visibility */
+}
+
+/* Individual elements */
+.game-timer,
+.game-score {
+  flex: 1;
+}
+
+.game-timer h1,
+.game-score h1 {
+  font-size: 24px;
+  color: #9df841;
+}
+
+.lemon-icon {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+
+/* Divider between game-timer and game-score */
+.divider {
+  width: 1px;
+  background-color: #D3D3D3; /* Semi-transparent white */
+  margin: 0 15px; /* Space between the timer and score sections */
+  height: 50%; /* Half the height of the parent container */
+
+}
+
+
+
+
+
+
+/* Поле игры */
+.game-area {
+  flex-grow: 1;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+
+
+@keyframes float {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(-10%);
+  }
+}
+
+
+
+
+/* Lemons */
+.lemon {
+  position: absolute;
+  cursor: pointer;
+  animation: float 5s linear infinite;
+  border: 10px solid transparent;
+
+}
+
+/* Lemon Sizes */
+.lemon.small {
+  width: 55px;
+  height: 55px;
+
+}
+
+.lemon.big {
+  width: 70px;
+  height: 70px;
+}
+
+/* Lemon Styles */
+.lemon.type-1 {
+  background: url('img/lemonsmall1.png') no-repeat center/cover;
+}
+
+.lemon.type-2 {
+  background: url('img/lemonsmall2.png') no-repeat center/cover;
+}
+
+.lemon.type-3 {
+  background: url('img/lemonbig1.png') no-repeat center/cover;
+}
+
+.lemon.type-4 {
+  background: url('img/lemonbig2.png') no-repeat center/cover;
+}
+
+
+/*END GAME POPUP*/
+.end-game-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("img/backlemon.png");
+  background-size: cover;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.popup-content {
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.popup-content h1 {
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.rewards {
+  margin-top: 30px  !important;
+  margin-bottom: 30px  !important;
+
+  background: linear-gradient(145deg, #0e0e14, #1a1a24, #7DEB60);
+  border-radius: 15px;
+  padding: 10px 50px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.rewards h2 {
+  font-family: 'Press Start 2P', cursive; /* Apply the pixel font */
+  font-size: 36px; /* Adjust font size as needed */
+  color: white; /* Ensure readability on dark background */
+  margin-top: 10px; /* Remove extra spacing */
+  margin-bottom: 10px; /* Remove extra spacing */
+
+  text-align: center; /* Center the title */
+}
+
+.rewards-inside {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0px;
+  background-color: #0B0D14;
+  border-radius: 15px;
+  padding: 5px 30px;
+}
+
+#reward-points {
+  font-size: 32px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.share-button {
+  background: linear-gradient(90deg, #7DEB60, #F7FC14);
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.share-button:hover {
+  background: linear-gradient(90deg, #68c128, #e4d910);
+}
+
+
+/* Style for the 'Main page' button */
+.share-to-main {
+  position: fixed; /* Fixes the button relative to the viewport */
+  top: 20px;       /* Positions the button 20px from the top */
+  left: 20px;      /* Positions the button 20px from the left */
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  border: none;    /* Removes the default border */
+  border-radius: 50%; /* Makes the button circular */
+  padding: 10px;   /* Adds padding inside the button */
+  cursor: pointer; /* Changes cursor to pointer on hover */
+  z-index: 2100;   /* Ensures the button appears above the popup */
+  display: flex;   /* Enables flexbox for centering the icon */
+  align-items: center; /* Vertically centers the icon */
+  justify-content: center; /* Horizontally centers the icon */
+  transition: background 0.3s ease; /* Smooth background transition on hover */
+}
+
+.share-to-main:hover {
+  background: rgba(0, 0, 0, 0.7); /* Darker background on hover */
+}
+
+.share-to-main svg {
+  width: 24px; /* Adjusts the width of the SVG icon */
+  height: 24px; /* Adjusts the height of the SVG icon */
+  fill: white; /* Ensures the icon is white */
+}
+
+
+
+
+
+
+
+/* QUESTS TAB */
+#quests-tab {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  display: none;
+  background-color: #0b0b13;  /* keep your background */
+  z-index: 10;               /* on top of page content */
+  overflow: hidden !important; /* We'll control scrolling when active */
+}
+
+
+
+
+/* 2) When active, let #quests-tab scroll vertically */
+#quests-tab.active {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  overflow-y: auto !important; /* key to scroll! */
+  box-sizing: border-box !important;
+  padding-top: 15px !important;    /* space for header if needed */
+  padding-bottom: 100px !important;/* extra bottom so last item isn’t behind footer */
+}
+
+
+
+/* Header Section */
+.quests-header {
+  text-align: center; /* Center-align text and icon */
+  margin-bottom: 0px; /* Space below the header */
+}
+
+.quests-icon {
+  width: 130px; /* Lemon icon size */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 0px !important;
+}
+
+.quests-tagline {
+  font-size: 18px; /* Tagline text size */
+  font-family: 'Poppins', sans-serif; /* Font style */
+  color: white; /* White text */
+}
+
+/* List Section */
+.quests-list {
+  width: 95vw;
+  max-width: 95vw; /* Constrain list width */
+  display: flex;
+  flex-direction: column; /* Arrange items vertically */
+  gap: 15px; /* Space between list items */
+  max-height: none !important; 
+  overflow-y: visible !important; 
+  margin-bottom: 0 !important;
+  
+}
+
+/* Quest Item */
+.quest-item {
+  background: #1a1a1a; /* Dark card background */
+  border-radius: 10px; /* Rounded corners */
+  padding-left: 20px; /* Inner padding for content */
+  padding-right: 20px; /* Inner padding for content */
+  padding-top: 5px; /* Inner padding for content */
+  padding-bottom: 5px; /* Inner padding for content */
+
+  display: flex; /* Flexbox for alignment */
+  justify-content: space-between; /* Space between text and reward */
+  align-items: center; /* Center-align text and reward vertically */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.quest-item:hover {
+  transform: translateY(-2px); /* Lift item slightly on hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); /* Add depth on hover */
+}
+
+/* Quest Item Text */
+.quest-item p {
+  margin: 0; /* Remove default margins */
+  font-size: 14px; /* Text size */
+  color: white; /* White text color */
+  font-family: 'Poppins', sans-serif; /* Font style */
+}
+
+
+.quest-item-invite {
+  background: #1a1a1a; /* Dark card background */
+  border-radius: 10px; /* Rounded corners */
+  padding-left: 20px; /* Inner padding for content */
+  padding-right: 20px; /* Inner padding for content */
+  padding-top: 5px; /* Inner padding for content */
+  padding-bottom: 5px; /* Inner padding for content */
+
+  display: flex; /* Flexbox for alignment */
+  justify-content: space-between; /* Space between text and reward */
+  align-items: center; /* Center-align text and reward vertically */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.quest-item-invite:hover {
+  transform: translateY(-2px); /* Lift item slightly on hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); /* Add depth on hover */
+}
+
+/* Quest Item Text */
+.quest-item-invite p {
+  margin: 0; /* Remove default margins */
+  font-size: 14px; /* Text size */
+  color: white; /* White text color */
+  width: 100%;
+  font-family: 'Poppins', sans-serif; /* Font style */
+}
+
+.share-link-button  {
+  background-color: transparent !important;
+  color: white; /* White text color */
+  border: 0px;
+  width: 100%;
+  margin: 0; /* Remove default margins */
+  font-size: 14px; /* Text size */
+  font-family: 'Poppins', sans-serif; /* Font style */
+}
+
+
+/* Reward Section */
+.quest-reward {
+  display: flex; /* Flexbox for alignment */
+  align-items: center; /* Center-align reward text and icon */
+  gap: 5px; /* Space between text and icon */
+  color: #00ff00; /* Bright green for rewards */
+  font-size: 14px; /* Reward text size */
+  font-family: 'Poppins', sans-serif; /* Font style */
+}
+
+.reward-icon {
+  width: 80px; /* Icon size */
+  height: 80px; /* Icon size */
+}
+
+
+/* INVITE POPUP */
+/* Close button for popup */
+.close-popup {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  color: white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  z-index: 2001;
+}
+
+.close-popup:hover {
+  color: #F7FC14;
+}
+
+/* INVITE POPUP */
+.invite-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* 50% black overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center content on both axes */
+  z-index: 2000;
+}
+
+.invite-popup-content {
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  background: black; /* Black popup background */
+  color: white;
+  position: relative; /* Ensure close button is positioned relative to content */
+}
+
+.invite-popup-content h1 {
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.invite-share-buttons {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  gap: 10px; /* Add spacing between buttons */
+  justify-content: center; /* Align buttons at the center */
+  align-items: center;
+}
+
+.invite-share-button {
+  width: 200px; /* Make buttons equal width */
+  background: linear-gradient(90deg, #7DEB60, #F7FC14);
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  text-align: center; /* Ensure button text is centered */
+}
+
+.invite-share-button:hover {
+  background: linear-gradient(90deg, #68c128, #e4d910);
+}
+
+
+/*LEADERBOARD*/
+
+/* Common Styles for All Tabs */
+
+#leaderboard-tab { /* Apply these styles to all tabs */
+  position: absolute; /* Full-screen layer */
+  top: 0;
+  left: 0;
+  
+  width: 100vw; /* Ensure the width spans the entire viewport */
+  height: 100vh; /* Ensure the height spans the entire viewport */
+  display: none; /* Initially hidden */
+  background-color: #0b0b13; /* Dark background matching theme */
+  z-index: 10; /* Ensure tabs are on top of the footer */
+  overflow-y: auto; /* Enable scrolling for overflow content */
+  box-sizing: border-box; /* Include padding and border in width/height */
+  padding-top: 55px; /* Add padding for spacing */
+  padding-left: 30px; /* Add padding for spacing */
+  padding-right: 30px; /* Add padding for spacing */
+  padding-bottom: 5px; /* Add padding for spacing */
+}
+
+/* Active Tab Style */
+
+#leaderboard-tab.active { /* Show active tab */
+  display: flex; /* Display the active tab */
+  flex-direction: column; /* Column layout */
+  align-items: center; /* Center align content horizontally */
+  
+}
+
+/* Specific Leaderboard Styles */
+#leaderboard-tab {
+  
+  color: white; /* White text color */
+}
+
+.leaderboard-top {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #7DEB60, #447E44);
+  border-radius: 10px;
+  padding: 10px 0;
+  width: 100%; /* Ensure it spans the full width */
+  max-width: 600px; /* Optional: Add a max-width for better design */
+  box-sizing: border-box;
+}
+
+.leaderboard-top-item {
+  text-align: center;
+  color: white;
+  flex: 1; /* Distribute space evenly among items */
+}
+
+.leaderboard-top-item img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin: 0px 0;
+}
+
+.leaderboard-top-item.leader img {
+  width: 70px;
+  height: 70px;
+}
+
+.user-placement {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 16px;
+  color: #7DEB60;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%; /* Ensure the list spans the full width */
+  max-width: 600px; /* Optional: Add a max-width for better design */
+  box-sizing: border-box;
+}
+
+
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  background: #282828;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100%; /* Ensure the item spans the full width */
+  box-sizing: border-box; /* Include padding and border in width/height */
+}
+
+.leaderboard-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px; /* Add space between the avatar and the nickname */
+  margin-left: 10px; /* Add space between the avatar and the nickname */
+
+}
+
+.leaderboard-item .nickname {
+  color: white;
+  margin-right: 20px; /* Add space between the nickname and points earned */
+  flex: 1; /* Allow the nickname to take up available space */
+  text-align: left; /* Align the nickname to the left */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Ensure long nicknames are truncated */
+  text-overflow: ellipsis; /* Add ellipsis for long nicknames */
+  font-size: 14px;
+}
+
+.leaderboard-item .points {
+  color: white;
+  font-weight: bold; /* Optional: Emphasize points */
+  text-align: right; /* Align points to the right */
+  white-space: nowrap;  font-size: 14px;
+  font-size: 14px;
+
+
+}
+
+
+span.crown-icon img{ 
+  width: 30px !important; 
+  height: 30px !important; 
+}
+
+/*PROFILE*/
+
+
+/* Profile Tab Styles */
+#profile-tab {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 95vh;
+  display: none;
+  background-color:  #0b0b13; /* Dark theme background */
+  z-index: 10;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding-top: 25px; /* Add padding for spacing */
+  padding-left: 30px; /* Add padding for spacing */
+  padding-right: 30px; /* Add padding for spacing */
+  padding-bottom: 10px; /* Add padding for spacing */
+}
+
+#profile-tab.active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+}
+
+/* Profile Header */
+.profile-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  box-shadow: 0 0 15px #7DEB60;
+}
+
+.profile-greeting {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Profile Options */
+.profile-options {
+  width: 100%;
+  max-width: 400px; /* Optional: Add max-width for better design */
+  background-color: #1c1c1c;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.profile-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.profile-icon { 
+  max-width: 40px;
+}
+
+.profile-option:last-child {
+  border-bottom: none;
+}
+
+.profile-option i {
+  font-size: 22px;
+  color: #7DEB60;
+  padding: 5px; 
+  background-color: #333;
+  border-radius: 90px;
+}
+
+.profile-option span {
+  flex: 1;
+  margin-left: 10px;
+  color: white;
+  font-size: 16px;
+}
+
+
+/* PROFILE POPUP*/
+
+
+/* Popup Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Popup Content */
+.popup-content {
+  background: #282828;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 500px;
+  max-height: 80%; /* Limit the height to ensure it fits within the screen */
+  overflow-y: auto; /* Enable vertical scrolling for overflowing content */
+  position: relative;
+  color: #fff;
+}
+
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Optional: Customize scrollbar appearance for better user experience */
+.popup-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.popup-content::-webkit-scrollbar-thumb {
+  background-color: #7DEB60;
+  border-radius: 8px;
+}
+
+.popup-content::-webkit-scrollbar-track {
+  background: #444;
+}
+
+
+
+
+
+
+
+/* FOOTER */
+
+/* Ensure Footer Stays at the Bottom */
+.footer {
+  position: fixed;
+  bottom:0;
+  padding-bottom: 15px !important;
+  margin-top: 10px !important;
+
+  padding: 5px;
+  width: 100%; /* Stretch the footer across the entire screen width */
+  background-color: #0b0b13;
+  display: flex;
+  justify-content: space-around; /* Space items evenly */
+  z-index: 1000; /* Ensure it stays above other content */
+}
+
+/* Footer Item */
+.footer-item {
+  display: flex;
+  align-items: center; /* Center icon and label */
+  justify-content: center;
+  width: 65px; /* Default circular size */
+  height: 65px;
+  background: #15171C; /* Dark gray background */
+  border-radius: 35px; /* Fully circular */
+  position: relative; /* For scaling and hover effects */
+  transition: all 0.3s ease; /* Smooth transitions */
+  color: #777; /* Default gray color */
+  cursor: pointer;
+}
+
+/* Footer Icon */
+.footer-item i {
+  font-size: 20px; /* Adjust icon size */
+  transition: color 0.3s ease;
+}
+
+/* Footer Label */
+.footer-item p {
+  position: absolute;
+  left: 70px; /* Position label to the right */
+  font-size: 10px; /* Slightly larger label font */
+  color: white;
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.3s ease, left 0.3s ease; /* Smooth text fade-in and slide */
+  white-space: nowrap; /* Prevent wrapping */
+  pointer-events: none; /* Prevent interaction with text */
+}
+
+/* Active Tab State */
+.footer-item.active {
+  background: #15171C; /* Dark gray background remains */
+  color: white;
+  width: 120px; /* Adjusted width to reduce space between icon and label */
+  justify-content: flex-start; /* Align content to the left */
+  padding-left: 10px; /* Reduced padding for tighter layout */
+  box-shadow: none; /* Removed shadow for active tab */
+}
+
+/* Add Gradient Circular Border with Extra Space */
+.footer-item.active i {
+  border: 1px solid transparent; /* Transparent base border */
+  border-radius: 100%; /* Circular border */
+  padding: 5px; /* Padding inside the border */
+  margin: 8px; /* Add space between the circle and the icon */
+  box-sizing: border-box; /* Include padding in size calculations */
+  background: linear-gradient(#15171C, #15171C), /* Inner dark background */
+              linear-gradient(90deg, #EDF722, #2CED90); /* Gradient border (yellow to green) */
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+/* SVG Icons Active State */
+.footer-item.active svg {
+  width: 20px; 
+  height: 20px;
+  fill: currentColor; /* Ensures the SVG icon color matches text color */
+  border-radius: 100%; /* Circular border around the icon */
+  padding: 5px; /* Padding inside the border */
+  box-sizing: border-box; /* Include padding in size calculations */
+  border: 1px solid transparent; /* Transparent base border */
+  background: linear-gradient(#15171C, #15171C), /* Inner dark background */
+              linear-gradient(90deg, #EDF722, #2CED90); /* Gradient border (yellow to green) */
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+/* Show Label on Active Tab */
+.footer-item.active p {
+  opacity: 1; /* Make label visible */
+  padding-left: 1px; /* Reduced distance between icon and label */
+}
+
+
+
+/* Additional space override */
+.footer-item.active i,
+.footer-item.active svg {
+  margin: 12px !important; /* Increase this value to add more spacing */
+}
+
+
+
+
+
+
+
+
+/* Mobile Optimizations */
+@media (max-width: 600px) {
+  .loading-icon {
+    width: 25vw;
+  }
+
+  .app-logo {
+    width: 50vw;
+    height: auto;
+  }
+
+  .login-button, .play-button {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  .score-container h1 {
+    font-size: 6vw;
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Laimon Bros Game API",
+    "version": "1.0.0",
+    "description": "API to store daily rewards, game results and quests results "
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "summary": "Generate new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created"
+          }
+        }
+      }
+    },
+    "/games": {
+      "post": {
+        "summary": "Write game result",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GameResult"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Game result written"
+          }
+        }
+      }
+    },
+    "/rewards/daily": {
+      "post": {
+        "summary": "Write daily reward",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DailyReward"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Daily reward written"
+          }
+        }
+      }
+    },
+    "/invites": {
+      "post": {
+        "summary": "Write friend invite",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInvite"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Friend Invite Written"
+          }
+        }
+      }
+    },
+    "/users/{userId}/total-score": {
+      "get": {
+        "summary": "Get total result of the  user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Total user Count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalScore": {
+                      "type": "integer",
+                      "description": "Sum of user points"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserCreate": {
+        "type": "object",
+        "required": ["telegramId", "username"],
+        "properties": {
+          "telegramId": {
+            "type": "string",
+            "description": "User ID in Telegram"
+          },
+          "username": {
+            "type": "string",
+            "description": "User Name"
+          }
+        }
+      },
+      "GameResult": {
+        "type": "object",
+        "required": ["userId", "score"],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "ID of the user"
+          },
+          "score": {
+            "type": "integer",
+            "description": "Number of points, received in the game "
+          }
+        }
+      },
+      "DailyReward": {
+        "type": "object",
+        "required": ["userId", "amount"],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "ID user"
+          },
+          "amount": {
+            "type": "integer",
+            "description": "Total points for daily reward"
+          }
+        }
+      },
+      "UserInvite": {
+        "type": "object",
+        "required": ["userId", "invitedUserId"],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "ID of the user who invited a friend "
+          },
+          "invitedUserId": {
+            "type": "string",
+            "description": "ID of the invited friend"
+          }
+        }
+      }
+    }
+  }
+}
