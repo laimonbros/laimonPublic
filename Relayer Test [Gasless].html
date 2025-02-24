@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>relayer test</title>
+    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        #status {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>relayer test</h1>
+
+    <button id="connectWallet">login with MetaMask</button>
+    <p id="account">not connected</p>
+
+    <button id="sendTx" disabled>send amount</button>
+    <p id="status"></p>
+
+    <script>
+
+        //const SUBNET_RPC_URL = "https://subnets.avax.network/physicalcy/testnet/rpc";
+        const RELAYER_URL = "https://gas-relayer.avax.network/physicalcy/testnet/rpc";
+        const FORWARDER_ADDRESS = "";
+        const DOMAIN_NAME = "physicalcy";
+        const DOMAIN_VERSION = "1";
+        const REQUEST_TYPE = "Message";
+        const SUFFIX_TYPE = "bytes32";
+        const SUFFIX_NAME = "BULWIOJCOTZJDGOXAHKYFOO";
+        const REQUEST_SUFFIX = `${SUFFIX_TYPE} ${SUFFIX_NAME})`;
+
+        const COUNTER_CONTRACT_ADDRESS = "0xF8EC80EDFe38cAa2891cf36E023A45721623CFAa"
+
+        let provider, signer, userAddress;
+
+
+        // ABIs for contracts
+        const FORWARDER_GET_NONCE_ABI = [
+            {
+                inputs: [
+                    {
+                        internalType: "address",
+                        name: "from",
+                        type: "address",
+                    },
+                ],
+                name: "getNonce",
+                outputs: [
+                    {
+                        internalType: "uint256",
+                        name: "",
+                        type: "uint256",
+                    },
+                ],
+                stateMutability: "view",
+                type: "function",
+            },
+        ];
+        const COUNTER_CONTRACT_INCREMENT_ABI = [
+            {
+                inputs: [],
+                name: "increment",
+                outputs: [],
+                stateMutability: "nonpayable",
+                type: "function",
+            },
+        ];
+
+
+
+
+        async function connectWallet() {
+            if (!window.ethereum) {
+                alert("Intall MetaMask!");
+                return;
+            }
+
+            try {
+                provider = new ethers.providers.Web3Provider(window.ethereum);
+                //provider = new ethers.providers.JsonRpcProvider(SUBNET_RPC_URL);
+
+                signer = await provider.getSigner();
+                userAddress = await signer.getAddress();
+
+                document.getElementById("account").innerText = `Connected: ${userAddress}`;
+                document.getElementById("sendTx").disabled = false;
+
+                const balance = await provider.getBalance(userAddress);
+                document.getElementById("status").innerText = `Balance: ${ethers.utils.formatEther(balance)} ETH`;
+
+            } catch (error) {
+                console.error("Error Connect:", error);
+            }
+        }
+        document.getElementById("connectWallet").addEventListener("click", connectWallet);
+
+
+        async function getEIP712Message(chainId, forwarderAddress, from, to, value, gas, nonce, data) {
+
+            const encoder = new TextEncoder();
+
+            return {
+                domain: {
+                    name: DOMAIN_NAME,
+                    version: DOMAIN_VERSION,
+                    chainId,
+                    verifyingContract: forwarderAddress,
+                },
+                types: {
+                    EIP712Domain: [
+                        { name: "name", type: "string" },
+                        { name: "version", type: "string" },
+                        { name: "chainId", type: "uint256" },
+                        { name: "verifyingContract", type: "address" },
+                    ],
+                    [REQUEST_TYPE]: [
+                        { name: "from", type: "address" },
+                        { name: "to", type: "address" },
+                        { name: "value", type: "uint256" },
+                        { name: "gas", type: "uint256" },
+                        { name: "nonce", type: "uint256" },
+                        { name: "data", type: "bytes" },
+                        { name: "validUntilTime", type: "uint256" },
+                        { name: SUFFIX_NAME, type: SUFFIX_TYPE },
+                    ],
+                },
+                primaryType: REQUEST_TYPE,
+                message: {
+                    from,
+                    to,
+                    value: value.toString(),
+                    gas: ethers.toBeHex(gas),
+                    nonce: ethers.toBeHex(nonce),
+                    data,
+                    validUntilTime: "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+                    [SUFFIX_NAME]: encoder.encode(REQUEST_SUFFIX),
+                },
+            };
+        }
+
+
+        async function getEIP712Message2(
+            domainName,
+            domainVersion,
+            chainId,
+            forwarderAddress,
+            data,
+            from,
+            to,
+            gas,
+            nonce,
+            value
+        ) {
+            const types = {
+                EIP712Domain: [
+                    { name: "name", type: "string" },
+                    { name: "version", type: "string" },
+                    { name: "chainId", type: "uint256" },
+                    { name: "verifyingContract", type: "address" },
+                ],
+                [REQUEST_TYPE]: [
+                    { name: "from", type: "address" },
+                    { name: "to", type: "address" },
+                    { name: "value", type: "uint256" },
+                    { name: "gas", type: "uint256" },
+                    { name: "nonce", type: "uint256" },
+                    { name: "data", type: "bytes" },
+                    { name: "validUntilTime", type: "uint256" },
+                    { name: SUFFIX_NAME, type: SUFFIX_TYPE },
+                ],
+            };
+
+            const encoder = new TextEncoder();
+
+            const message = {
+                from: from,
+                to: to,
+                value: value.toHexString(),
+                gas: gas.toHexString(),
+                nonce: nonce.toHexString(),
+                data: data,
+                validUntilTime: "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+                [SUFFIX_NAME]: encoder.encode(REQUEST_SUFFIX)//Buffer.from(REQUEST_SUFFIX, "utf8"),
+            };
+
+            const result = {
+                domain: {
+                    name: domainName,
+                    version: domainVersion,
+                    chainId: chainId,
+                    verifyingContract: forwarderAddress,
+                },
+                types: types,
+                primaryType: REQUEST_TYPE,
+                message: message,
+            };
+
+            return result;
+        }
+
+
+        async function createRawTransaction(tx) {  // Make it async for potential future use
+            try {
+                const txString = await JSON.stringify(tx, (_, v) => typeof v === 'bigint' ? v.toString() : v);
+
+                // 1. Encode the string to UTF-8 (essential for correctness):
+                const encoder = new TextEncoder();
+                const encodedTx = encoder.encode(txString);
+
+                // 2. Convert the encoded data to a hex string:
+                let hexString = '';
+                for (const byte of encodedTx) {
+                    hexString += byte.toString(16).padStart(2, '0'); // Pad with 0 if needed
+                }
+
+                const rawTx = '0x' + hexString;
+                return rawTx;
+
+            } catch (error) {
+                console.error("Error creating raw transaction:", error);
+                throw error; // Re-throw the error for handling elsewhere
+            }
+        }
+
+        async function sendTransaction() {
+            if (!signer) {
+                alert("First login MetaMask!");
+                return;
+            }
+
+            try {
+                document.getElementById("status").innerText = "Gas value...";
+
+                const network = await provider.getNetwork();
+
+                const forwarder = new ethers.Contract(
+                    FORWARDER_ADDRESS,
+                    FORWARDER_GET_NONCE_ABI,
+                    provider
+                );
+
+                //------------------------------------------------------------
+
+                const forwarderNonce = await forwarder.getNonce(userAddress);
+
+                // get counter contract
+                const gaslessCounter = new ethers.Contract(
+                    COUNTER_CONTRACT_ADDRESS,
+                    COUNTER_CONTRACT_INCREMENT_ABI,
+                    signer//account
+                );
+
+                // get function selector for gasless "increment" method
+
+                const fragment = gaslessCounter.interface.getFunction("increment");
+
+                const func = gaslessCounter.interface.getSighash(fragment)
+
+                const gas = await gaslessCounter.estimateGas[fragment.name]();
+
+                console.log(`Gas: ${gas.toString()}`);
+
+                document.getElementById("status").innerText = "Sign Transaction...";
+
+                const eip712Message = await getEIP712Message2(
+                    DOMAIN_NAME,
+                    DOMAIN_VERSION,
+                    network.chainId,
+                    forwarder.address,
+                    func,
+                    await signer.getAddress(), //account.address
+                    COUNTER_CONTRACT_ADDRESS,
+                    ethers.BigNumber.from(gas),
+                    forwarderNonce,
+                    ethers.BigNumber.from(0)
+                );
+
+                const { EIP712Domain, ...types } = eip712Message.types;
+
+                const signature = await signer._signTypedData(
+                    eip712Message.domain,
+                    types,
+                    eip712Message.message
+                );
+
+                const verifiedAddress = ethers.utils.verifyTypedData(
+                    eip712Message.domain,
+                    types,
+                    eip712Message.message,
+                    signature
+                );
+
+                if (verifiedAddress != await signer.getAddress()) {
+                    throw new Error("Fail sign and recover");
+                }
+
+
+                document.getElementById("status").innerText = "send...";
+
+                const tx = {
+                    forwardRequest: eip712Message,
+                    metadata: { signature: signature.substring(2) },
+                };
+
+                const rawTx = await createRawTransaction(tx)
+
+
+                const requestBody = {
+                    id: 1,
+                    jsonrpc: "2.0",
+                    method: "eth_sendRawTransaction",
+                    params: [rawTx],
+                };
+
+                const response = await fetch(RELAYER_URL, {
+                    method: "POST",
+                    //mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(requestBody),
+                });
+
+                const result = await response.json();
+                if (!result.result) throw new Error("Error on sent!");
+
+                console.log(`Transaction sent: ${result.result}`);
+                document.getElementById("status").innerText = `Success! Tx Hash: ${result.result}`;
+
+                await provider.waitForTransaction(result.result);
+                document.getElementById("status").innerText = "Transaction confirmed!";
+
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("status").innerText = "Error: " + error.message;
+            }
+        }
+
+
+        document.getElementById("sendTx").addEventListener("click", sendTransaction);
+    </script>
+
+</body>
+
+</html>
